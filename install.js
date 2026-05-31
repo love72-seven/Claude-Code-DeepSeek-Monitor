@@ -66,6 +66,10 @@ try {
     "} catch(e) {}",
     "process.env.COLUMNS = String(Math.max(1, cols));",
     `const hud = await import(pathToFileURL(${JSON.stringify(path.join(hudDest, 'dist', 'index.js'))}).href);`,
+    "import { writeFileSync } from 'fs';",
+    "import { homedir } from 'os';",
+    "import { join } from 'path';",
+    "try { writeFileSync(join(homedir(), '.claude', 'deepseek-cache', 'hud.pid'), String(process.pid)); } catch {}",
     "hud.main();",
     "",
   ].join('\n'));

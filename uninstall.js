@@ -26,9 +26,23 @@ step('清理 settings.json', () => {
   }
 });
 
-// 杀 daemon（如果有的话）
-step('停止后台进程', () => {
-  try { require('child_process').execSync('pkill -f balance-daemon.js 2>/dev/null || taskkill /f /im node.exe 2>nul', { stdio: 'ignore' }); } catch {}
+// 杀 HUD + daemon
+step('停止 HUD 进程', () => {
+  try {
+    const pidFile = path.join(HOME, '.claude', 'deepseek-cache', 'hud.pid');
+    if (fs.existsSync(pidFile)) {
+      const pid = parseInt(fs.readFileSync(pidFile, 'utf-8').trim());
+      try { process.kill(pid); } catch {}
+      fs.unlinkSync(pidFile);
+    }
+  } catch {}
+  try {
+    if (process.platform === 'win32') {
+      require('child_process').execSync('taskkill /f /fi "IMAGENAME eq node.exe" 2>nul', { stdio: 'ignore' });
+    } else {
+      require('child_process').execSync('pkill -f "run.mjs" 2>/dev/null || true', { stdio: 'ignore' });
+    }
+  } catch {}
 });
 
 // 删除所有安装的文件
