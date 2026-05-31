@@ -25,11 +25,12 @@
     "skills/",
     "install.js",
     "uninstall.js",
-    "README.md"
+    "README.md",
+    "scripts/uninstall.js"
   ],
   "scripts": {
     "postinstall": "node install.js",
-    "preuninstall": "node uninstall.js"
+    "preuninstall": "node --input-type=commonjs -e \"try{require('./uninstall.js')}catch(e){console.error(e.message)}\""
   },
   "engines": {
     "node": ">=18"
