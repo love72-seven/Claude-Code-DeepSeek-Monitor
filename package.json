@@ -1,6 +1,6 @@
 {
   "name": "claude-code-deepseek-monitor",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "DeepSeek 用量实时监控插件 — Claude Code 底部状态栏显示 token、费用、余额",
   "keywords": [
     "claude-code",
