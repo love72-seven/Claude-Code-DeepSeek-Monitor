@@ -10,6 +10,15 @@ const DS_OUTPUT_PRICE = 6;
 const REFRESH_SEC = 5; // 5 秒刷新
 const ALERT_DEFAULT = 0.5;
 const CACHE_DIR = path.join(os.homedir(), '.claude', 'deepseek-cache');
+const VERSION_FILE = path.join(CACHE_DIR, 'version.txt');
+function readVersion() {
+    try {
+        return fs.readFileSync(VERSION_FILE, 'utf-8').trim();
+    }
+    catch {
+        return '';
+    }
+}
 try {
     fs.mkdirSync(CACHE_DIR, { recursive: true });
 }
@@ -155,6 +164,9 @@ export function renderDeepSeekLine(ctx) {
         catch { }
         parts.push(`${label(t('label.balance'))} ${color}¥${bal.str}${RESET}${warn}${age}`);
     }
+    const ver = readVersion();
+    if (ver)
+        parts.push(`${dim('v' + ver)}`);
     if (parts.length === 0)
         return null;
     return parts.join('  ');

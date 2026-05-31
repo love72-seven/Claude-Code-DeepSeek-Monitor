@@ -45,6 +45,11 @@ try {
   // 4. HUD config
   log('⚙️', 'configure HUD...');
   fs.mkdirSync(PLUGIN_DIR, { recursive: true });
+  // 写入版本号
+  const versionCacheDir = path.join(HOME, '.claude', 'deepseek-cache');
+  try { fs.mkdirSync(versionCacheDir, { recursive: true }); } catch {}
+  fs.writeFileSync(path.join(versionCacheDir, 'version.txt'), '1.0.19');
+
   fs.writeFileSync(path.join(PLUGIN_DIR, 'config.json'), JSON.stringify({
     language:'zh', lineLayout:'compact',
     elementOrder:['project','context','deepseek','tools','agents','todos'],
